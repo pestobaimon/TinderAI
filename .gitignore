@@ -105,3 +105,6 @@ venv.bak/
 
 #secret keys
 acc_keys.py
+
+/dataset/nope
+/dataset/yea

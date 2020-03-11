@@ -114,61 +114,73 @@ class TinderBot():
             except Exception:
                 pass
 
-        
-
-        try:
-            img1 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[1]/div/div')
-            srcs.append(img1.get_attribute('style'))
-            img_click_right.perform()
+        imgcount = 1
+        while True:
+            xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + str(imgcount) + ']/div/div[1]'
             try:
-                img2 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[2]/div/div')
-                srcs.append(img2.get_attribute('style'))
+                img = self.driver.find_element_by_xpath(xpath)
+                srcs.append(img.get_attribute('style'))
+                print(img.get_attribute('style'))
                 img_click_right.perform()
-                try:
-                    img3 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[3]/div/div')
-                    srcs.append(img3.get_attribute('style'))
-                    img_click_right.perform()
-                    try:
-                        img4 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[4]/div/div')
-                        srcs.append(img4.get_attribute('style'))
-                        img_click_right.perform()
-                        try:
-                            img5 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[5]/div/div[1]')
-                            srcs.append(img5.get_attribute('style'))
-                            img_click_right.perform()
-                            try:
-                                img6 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[6]/div/div')
-                                srcs.append(img6.get_attribute('style'))
-                                img_click_right.perform()
-                                try:
-                                    img7 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[7]/div/div')
-                                    srcs.append(img7.get_attribute('style'))
-                                    img_click_right.perform()
-                                    try:
-                                        img8 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[8]/div/div[1]')
-                                        srcs.append(img8.get_attribute('style'))
-                                        img_click_right.perform()
-                                        try:
-                                            img9 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[9]/div/div')
-                                            srcs.append(img9.get_attribute('style'))
-                                        except Exception:
-                                            print('failed to get img9')
-                                    except Exception:
-                                        print('failed to get img8')
-                                except Exception:
-                                    print('failed to get img7')
-                            except Exception:
-                                print('failed to get img6')
-                        except Exception:
-                            print('failed to get img5')
-                    except Exception:
-                        print('failed to get img4')
-                except Exception:
-                    print('failed to get img3')
+                imgcount+=1
             except Exception:
-                print('failed to get img2')
-        except Exception:
-            print('failed to get img1')
+                print('failed to get img' + str(imgcount))
+                break
+
+
+        # try:
+        #     img1 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[1]/div/div')
+        #     srcs.append(img1.get_attribute('style'))
+        #     img_click_right.perform()
+        #     try:
+        #         img2 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[2]/div/div')
+        #         srcs.append(img2.get_attribute('style'))
+        #         img_click_right.perform()
+        #         try:
+        #             img3 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[3]/div/div')
+        #             srcs.append(img3.get_attribute('style'))
+        #             img_click_right.perform()
+        #             try:
+        #                 img4 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[4]/div/div')
+        #                 srcs.append(img4.get_attribute('style'))
+        #                 img_click_right.perform()
+        #                 try:
+        #                     img5 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[5]/div/div[1]')
+        #                     srcs.append(img5.get_attribute('style'))
+        #                     img_click_right.perform()
+        #                     try:
+        #                         img6 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[6]/div/div')
+        #                         srcs.append(img6.get_attribute('style'))
+        #                         img_click_right.perform()
+        #                         try:
+        #                             img7 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[7]/div/div')
+        #                             srcs.append(img7.get_attribute('style'))
+        #                             img_click_right.perform()
+        #                             try:
+        #                                 img8 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[8]/div/div[1]')
+        #                                 srcs.append(img8.get_attribute('style'))
+        #                                 img_click_right.perform()
+        #                                 try:
+        #                                     img9 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[9]/div/div')
+        #                                     srcs.append(img9.get_attribute('style'))
+        #                                 except Exception:
+        #                                     print('failed to get img9')
+        #                             except Exception:
+        #                                 print('failed to get img8')
+        #                         except Exception:
+        #                             print('failed to get img7')
+        #                     except Exception:
+        #                         print('failed to get img6')
+        #                 except Exception:
+        #                     print('failed to get img5')
+        #             except Exception:
+        #                 print('failed to get img4')
+        #         except Exception:
+        #             print('failed to get img3')
+        #     except Exception:
+        #         print('failed to get img2')
+        # except Exception:
+        #     print('failed to get img1')
 
         
         urls = []
@@ -180,7 +192,6 @@ class TinderBot():
                     start_char = count
                 elif c == ')':
                     end_char = count
-
             urls.append(src[start_char+1:end_char-2])
             
         for url in urls:
@@ -245,6 +256,25 @@ class TinderBot():
                 except Exception:
                     print('save gurl failed')
 
+
+    def data_collect_right(self):
+        self.get_all_img('right')
+        self.like()
+
+    def data_collect_left(self):
+        self.get_all_img('left')
+        self.dislike()
+
+
+    def collect_data(self):
+        while True:
+            kbin = input('press j to swipe left and k to swipe right. press x to exit')
+            if kbin == "j":
+                self.data_collect_left
+            elif kbin == "k":
+                self.data_collect_right
+            elif kbin == "x":
+                break
 
 
 bot = TinderBot()
