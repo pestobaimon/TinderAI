@@ -92,7 +92,12 @@ class TinderBot():
     def get_all_img(self,swipe):
         # get the image source
         srcs = []
-       
+
+        try:
+            age = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[6]/div/div[1]/div/span').text
+        except:
+            age = 'none'
+        
         img_click_left = ActionChains(self.driver)
         img_click_right = ActionChains(self.driver)
         img_center_btn = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[1]')
@@ -116,6 +121,7 @@ class TinderBot():
 
         imgcount = 1
         while True:
+            sleep(0.1)
             xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + str(imgcount) + ']/div/div[1]'
             try:
                 img = self.driver.find_element_by_xpath(xpath)
@@ -126,62 +132,6 @@ class TinderBot():
             except Exception:
                 print('failed to get img' + str(imgcount))
                 break
-
-
-        # try:
-        #     img1 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[1]/div/div')
-        #     srcs.append(img1.get_attribute('style'))
-        #     img_click_right.perform()
-        #     try:
-        #         img2 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[2]/div/div')
-        #         srcs.append(img2.get_attribute('style'))
-        #         img_click_right.perform()
-        #         try:
-        #             img3 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[3]/div/div')
-        #             srcs.append(img3.get_attribute('style'))
-        #             img_click_right.perform()
-        #             try:
-        #                 img4 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[4]/div/div')
-        #                 srcs.append(img4.get_attribute('style'))
-        #                 img_click_right.perform()
-        #                 try:
-        #                     img5 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[5]/div/div[1]')
-        #                     srcs.append(img5.get_attribute('style'))
-        #                     img_click_right.perform()
-        #                     try:
-        #                         img6 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[6]/div/div')
-        #                         srcs.append(img6.get_attribute('style'))
-        #                         img_click_right.perform()
-        #                         try:
-        #                             img7 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[7]/div/div')
-        #                             srcs.append(img7.get_attribute('style'))
-        #                             img_click_right.perform()
-        #                             try:
-        #                                 img8 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[8]/div/div[1]')
-        #                                 srcs.append(img8.get_attribute('style'))
-        #                                 img_click_right.perform()
-        #                                 try:
-        #                                     img9 = self.driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[9]/div/div')
-        #                                     srcs.append(img9.get_attribute('style'))
-        #                                 except Exception:
-        #                                     print('failed to get img9')
-        #                             except Exception:
-        #                                 print('failed to get img8')
-        #                         except Exception:
-        #                             print('failed to get img7')
-        #                     except Exception:
-        #                         print('failed to get img6')
-        #                 except Exception:
-        #                     print('failed to get img5')
-        #             except Exception:
-        #                 print('failed to get img4')
-        #         except Exception:
-        #             print('failed to get img3')
-        #     except Exception:
-        #         print('failed to get img2')
-        # except Exception:
-        #     print('failed to get img1')
-
         
         urls = []
         for src in srcs:
@@ -196,16 +146,17 @@ class TinderBot():
             
         for url in urls:
             file_name = os.path.basename(url)
+            file_name = 'age_' + str(age) + '_' + file_name
             print(file_name) #Output: 09-09-201315-47-571378756077.jpg
             # download the image
             if(swipe == "left"):
                 try:
-                    urllib.request.urlretrieve(url, "nope/" + file_name)
+                    urllib.request.urlretrieve(url, "dataset/nope/" + file_name)
                 except Exception:
                     print('save gurl failed')
             else:
                 try:
-                    urllib.request.urlretrieve(url, "yea/" + file_name)
+                    urllib.request.urlretrieve(url, "dataset/yea/" + file_name)
                 except Exception:
                     print('save gurl failed')
 
@@ -243,6 +194,7 @@ class TinderBot():
             
         for url in urls:
             file_name = os.path.basename(url)
+
             print(file_name) #Output: 09-09-201315-47-571378756077.jpg
             # download the image
             if(swipe == "left"):
