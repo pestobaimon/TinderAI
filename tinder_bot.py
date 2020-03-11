@@ -244,12 +244,12 @@ class TinderBot():
             # download the image
             if(swipe == "left"):
                 try:
-                    urllib.request.urlretrieve(url, "nope/" + file_name)
+                    urllib.request.urlretrieve(url, "dataset/nope/" + file_name)
                 except Exception:
                     print('save gurl failed')
             else:
                 try:
-                    urllib.request.urlretrieve(url, "yea/" + file_name)
+                    urllib.request.urlretrieve(url, "dataset/yea/" + file_name)
                 except Exception:
                     print('save gurl failed')
 
