@@ -6,7 +6,6 @@ import urllib.request
 from urllib.parse import urlparse
 import os
 import sys
-
 import json
 
 
@@ -171,6 +170,7 @@ class TinderBot():
         gurl_dict = {
             'age': age,
             'name': name,
+            'swipe': swipe,
             'img_url': urls
         }
 
@@ -185,24 +185,6 @@ class TinderBot():
                 json.dump(data, json_file)
         except:
             print('failed to update JSON file')
-
-
-        # for url in urls:
-        #     file_name = os.path.basename(url)
-        #     file_name = 'age_' + str(age) + '_' + file_name
-        #     print(file_name)  # Output: 09-09-201315-47-571378756077.jpg
-        #     # download the image
-        #     if(swipe == "left"):
-        #         try:
-        #             urllib.request.urlretrieve(
-        #                 url, "dataset/nope/" + file_name)
-        #         except Exception:
-        #             print('save gurl failed')
-        #     else:
-        #         try:
-        #             urllib.request.urlretrieve(url, "dataset/yea/" + file_name)
-        #         except Exception:
-        #             print('save gurl failed')
 
     def get_first_img(self, swipe):
         # get the image source
