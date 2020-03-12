@@ -13,8 +13,7 @@ bar = progressbar.ProgressBar(maxval=len(data), \
     widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
 bar.start()
 
-i = 1
-for person in data:
+for i, person in enumerate(data, start = 1):
     age = person['age']
     age = str(age)
     swipe = person['swipe']
@@ -36,7 +35,5 @@ for person in data:
                 # print('saved ' + file_name + ' to yea')
             except Exception:
                 pass
-                # print('save gurl failed')
     bar.update(i)
-    i += 1
 bar.finish()
