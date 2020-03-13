@@ -8,6 +8,9 @@ import os
 import sys
 import json
 from tkinter import *
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class TinderBot():
@@ -312,26 +315,46 @@ class TinderBot():
         gurl_dict = {
             'age': age,
             'name': name,
-            'swipe': swipe,
             'img_url': urls
         }
 
-        try:
-            with open('gurls.json') as f:
-                data = json.load(f)
-        except:
-            data = list()
-        data.append(gurl_dict)
-        try:
-            with open('gurls.json', 'w') as json_file:
-                json.dump(data, json_file)
-        except:
-            print('failed to update JSON file')
+        if swipe == 'left':
+            self.collect_nope_url(gurl_dict)
+        else:
+            self.collect_yea_url(gurl_dict)
         
         if swipe == 'left':
             img_click_right.perform()
         elif swipe == 'right':
             img_click_right.perform()
+    
+    def collect_yea_url(self, gurl_dict: dict):
+        try:
+            with open('res/yea_gurls.json') as f:
+                data = json.load(f)
+        except:
+            data = list()
+        data.append(gurl_dict)
+        try:
+            with open('res/yea_gurls.json', 'w') as json_file:
+                json.dump(data, json_file)
+        except:
+            print('failed to update JSON file')
+
+    def collect_nope_url(self, gurl_dict: dict):
+        try:
+            with open('res/nope_gurls.json') as f:
+                data = json.load(f)
+        except:
+            data = list()
+        data.append(gurl_dict)
+        try:
+            with open('res/nope_gurls.json', 'w') as json_file:
+                json.dump(data, json_file)
+        except:
+            print('failed to update JSON file')
+        
+
 
     def tk_collect(self):
         main = Tk()
