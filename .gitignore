@@ -114,3 +114,7 @@ acc_keys.py
 gurls.json
 
 /test
+
+/downloaded
+
+.vscode

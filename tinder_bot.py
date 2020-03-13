@@ -7,11 +7,13 @@ from urllib.parse import urlparse
 import os
 import sys
 import json
+from tkinter import *
 
 
 class TinderBot():
     def __init__(self):
         self.driver = webdriver.Chrome()
+        self.tkinter_current_pos = 1
 
     def login(self):
         self.driver.get('https://www.tinder.com')
@@ -253,6 +255,91 @@ class TinderBot():
                 self.data_collect_right
             elif kbin == "x":
                 break
+
+    def tk_collect_right(self):
+        pass
+
+    def get_current_img(self,event:Event):
+        # get the image source
+        srcs = []
+        swipe = event.__getattribute__('keysym').lower()
+        age = 'none'
+        name = 'none'
+        try:
+            age = self.driver.find_element_by_xpath(
+                '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[6]/div/div[1]/div/span').text
+        except:
+            pass
+        try:
+            name = self.driver.find_element_by_xpath(
+                '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[6]/div/div[1]/div/div/span').text
+        except:
+            pass
+
+        img_click_left = ActionChains(self.driver)
+        img_click_right = ActionChains(self.driver)
+        img_center_btn = self.driver.find_element_by_xpath(
+            '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[1]')
+        img_click_left.move_to_element_with_offset(img_center_btn, 5, 5)
+        img_click_left.click()
+        img_click_right.move_to_element_with_offset(img_center_btn, 60, 5)
+        img_click_right.click()
+
+        xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + str(self.tkinter_current_pos) + ']/div/div[1]'
+        try:
+            img = self.driver.find_element_by_xpath(xpath)
+            srcs.append(img.get_attribute('style'))
+            print(img.get_attribute('style'))
+            self.tkinter_current_pos+=1
+        except Exception:
+            print('failed to get img' + str(self.tkinter_current_pos))
+            self.tkinter_current_pos = 1
+            self.dislike()
+            return
+            
+
+        urls = []
+        for src in srcs:
+            count = 0
+            for c in src:
+                count += 1
+                if c == '(':
+                    start_char = count
+                elif c == ')':
+                    end_char = count
+            urls.append(src[start_char+1:end_char-2])
+
+        gurl_dict = {
+            'age': age,
+            'name': name,
+            'swipe': swipe,
+            'img_url': urls
+        }
+
+        try:
+            with open('gurls.json') as f:
+                data = json.load(f)
+        except:
+            data = list()
+        data.append(gurl_dict)
+        try:
+            with open('gurls.json', 'w') as json_file:
+                json.dump(data, json_file)
+        except:
+            print('failed to update JSON file')
+        
+        if swipe == 'left':
+            img_click_right.perform()
+        elif swipe == 'right':
+            img_click_right.perform()
+
+    def tk_collect(self):
+        main = Tk()
+        frame = Frame(main, width=100, height=100)
+        main.bind('<Left>', self.get_current_img)
+        main.bind('<Right>', self.get_current_img)
+        frame.pack()
+        main.mainloop()
 
 
 bot = TinderBot()
