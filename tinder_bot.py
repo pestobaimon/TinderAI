@@ -264,7 +264,7 @@ class TinderBot():
 
     def get_current_img(self,event:Event):
         # get the image source
-        srcs = []
+
         swipe = event.__getattribute__('keysym').lower()
         age = 'none'
         name = 'none'
@@ -291,8 +291,8 @@ class TinderBot():
         xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + str(self.tkinter_current_pos) + ']/div/div[1]'
         try:
             img = self.driver.find_element_by_xpath(xpath)
-            srcs.append(img.get_attribute('style'))
-            print(img.get_attribute('style'))
+            style = img.get_attribute('style')
+            #print(img.get_attribute('style'))
             self.tkinter_current_pos+=1
         except Exception:
             print('failed to get img' + str(self.tkinter_current_pos))
@@ -300,22 +300,23 @@ class TinderBot():
             self.dislike()
             return
             
+        # print(srcs)
+        # for src in srcs:
+        #     count = 0
+        #     for c in src:
+        #         count += 1
+        #         if c == '(':
+        #             start_char = count
+        #         elif c == ')':
+        #             end_char = count
+        #     img_url = src[start_char+1:end_char-2])
 
-        urls = []
-        for src in srcs:
-            count = 0
-            for c in src:
-                count += 1
-                if c == '(':
-                    start_char = count
-                elif c == ')':
-                    end_char = count
-            urls.append(src[start_char+1:end_char-2])
+        img_url = style[style.find('("')+2 : style.find('")')]
 
         gurl_dict = {
             'age': age,
             'name': name,
-            'img_url': urls
+            'img_url': img_url
         }
 
         if swipe == 'left':
@@ -338,6 +339,7 @@ class TinderBot():
         try:
             with open('res/yea_gurls.json', 'w') as json_file:
                 json.dump(data, json_file)
+            print(gurl_dict['img_url'])
         except:
             print('failed to update JSON file')
 
@@ -351,10 +353,10 @@ class TinderBot():
         try:
             with open('res/nope_gurls.json', 'w') as json_file:
                 json.dump(data, json_file)
+            print(gurl_dict['img_url'])
         except:
             print('failed to update JSON file')
-        
-
+    
 
     def tk_collect(self):
         main = Tk()
