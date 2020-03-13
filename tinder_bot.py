@@ -129,7 +129,7 @@ class TinderBot():
         img_click_right.click()
 
         first_pic_hit = 0
-        for i in list(range(10)):
+        for i in range(10):
             if first_pic_hit >= 2:
                 break
             try:
