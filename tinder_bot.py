@@ -231,7 +231,8 @@ class TinderBot():
             # download the image
             if(swipe == "left"):
                 try:
-                    urllib.request.urlretrieve(url, "dataset/nope/" + file_name)
+                    urllib.request.urlretrieve(
+                        url, "dataset/nope/" + file_name)
                 except Exception:
                     print('save gurl failed')
             else:
@@ -262,7 +263,7 @@ class TinderBot():
     def tk_collect_right(self):
         pass
 
-    def get_current_img(self,event:Event):
+    def get_current_img(self, event: Event):
         # get the image source
 
         swipe = event.__getattribute__('keysym').lower()
@@ -288,30 +289,20 @@ class TinderBot():
         img_click_right.move_to_element_with_offset(img_center_btn, 60, 5)
         img_click_right.click()
 
-        xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + str(self.tkinter_current_pos) + ']/div/div[1]'
+        xpath = '//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div[1]/div/div[1]/div[3]/div[1]/div[1]/div/div[' + \
+            str(self.tkinter_current_pos) + ']/div/div[1]'
         try:
             img = self.driver.find_element_by_xpath(xpath)
             style = img.get_attribute('style')
-            #print(img.get_attribute('style'))
-            self.tkinter_current_pos+=1
+            # print(img.get_attribute('style'))
+            self.tkinter_current_pos += 1
         except Exception:
             print('failed to get img' + str(self.tkinter_current_pos))
             self.tkinter_current_pos = 1
             self.dislike()
             return
-            
-        # print(srcs)
-        # for src in srcs:
-        #     count = 0
-        #     for c in src:
-        #         count += 1
-        #         if c == '(':
-        #             start_char = count
-        #         elif c == ')':
-        #             end_char = count
-        #     img_url = src[start_char+1:end_char-2])
 
-        img_url = style[style.find('("')+2 : style.find('")')]
+        img_url = style[style.find('("')+2: style.find('")')]
 
         gurl_dict = {
             'age': age,
@@ -323,12 +314,14 @@ class TinderBot():
             self.collect_nope_url(gurl_dict)
         else:
             self.collect_yea_url(gurl_dict)
-        
-        if swipe == 'left':
-            img_click_right.perform()
-        elif swipe == 'right':
-            img_click_right.perform()
-    
+
+        img_click_right.perform()
+
+        # if swipe == 'left':
+        #     img_click_right.perform()
+        # elif swipe == 'right':
+        #     img_click_right.perform()
+
     def collect_yea_url(self, gurl_dict: dict):
         try:
             with open('res/yea_gurls.json') as f:
@@ -356,7 +349,6 @@ class TinderBot():
             print(gurl_dict['img_url'])
         except:
             print('failed to update JSON file')
-    
 
     def tk_collect(self):
         main = Tk()
