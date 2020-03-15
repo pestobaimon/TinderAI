@@ -12,6 +12,7 @@ import tkinter
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pathlib import Path
 
 
 class TinderBot():
@@ -359,5 +360,10 @@ class TinderBot():
         frame.pack()
         main.mainloop()
 
+def check_dir():
+    Path("res/").mkdir(parents=True, exist_ok=True)
+    Path("dataset/").mkdir(parents=True, exist_ok=True)
+
+check_dir()
 bot = TinderBot()
 bot.login()

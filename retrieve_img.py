@@ -2,8 +2,41 @@ import pandas as pd
 import urllib.request
 from urllib.parse import urlparse
 import os
+import sys
 import progressbar
 import json
+from pathlib import Path
+
+
+def check_dir():
+    Path("res/").mkdir(parents=True, exist_ok=True)
+    Path("dataset/").mkdir(parents=True, exist_ok=True)
+
+
+def check_files():
+    if not Path('res/yea_gurls.json').exists:
+        print('yea_gurls.json does not exist!')
+        sys.exit(0)
+
+    if not Path('res/nope_gurls.json').exists:
+        print('nope_gurls.json does not exist!')
+        sys.exit(0)
+
+
+def check_content():
+    with open('res/nope_gurls.json', 'rb') as file:
+        if file.read(2) != '[]':
+            file.seek(0)
+            json.load(file)
+            print('empty nope gurls content')
+            sys.exit(0)
+    with open('res/yea_gurls.json', 'rb') as file:
+        if file.read(2) != '[]':
+            file.seek(0)
+            json.load(file)
+            print('empty yea gurls content')
+            sys.exit(0)
+
 
 def download_img(swipe: str):
     if swipe == 'right':
@@ -12,14 +45,15 @@ def download_img(swipe: str):
         print('downloading nope img...')
 
     df = pd.read_json('res/yea_gurls.json')
-    df['merged'] = df.apply(lambda row: {'age':row['age'], 'img_url': row['img_url']}, axis=1)
+    df['merged'] = df.apply(
+        lambda row: {'age': row['age'], 'img_url': row['img_url']}, axis=1)
     data = df['merged'].to_list()
 
-    bar = progressbar.ProgressBar(maxval=len(data), \
-        widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    bar = progressbar.ProgressBar(maxval=len(data),
+                                  widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
     bar.start()
 
-    for i, person in enumerate(data, start = 1):
+    for i, person in enumerate(data, start=1):
         age = person['age']
         age = str(age)
         url = person['img_url']
@@ -39,14 +73,15 @@ def download_img(swipe: str):
 
     bar.finish()
 
+
 def collect_failed_gurl(gurl, status: str):
 
     DESTINATION = 'res/failed_yea_gurls.json' if status == 'right' else 'res/failed_nope_gurls.json'
-    
+
     if not os.path.isfile(DESTINATION):
         with open(DESTINATION, "w") as json_file:
             json.dump(json_file, list())
-    
+
     try:
         with open(DESTINATION) as f:
             data = json.load(f)
@@ -60,6 +95,7 @@ def collect_failed_gurl(gurl, status: str):
             json.dump(data, json_file)
     except:
         pass
+
 
 def move_to_archieved():
     if not os.path.isfile("res/archieved_yea_gurls.json"):
@@ -94,15 +130,20 @@ def move_to_archieved():
 
     print('move to archieve successfully')
 
+
 def clear_json(swipe: str):
 
     file = 'nope_gurls.json' if swipe == 'left' else 'yea_gurls.json'
 
     with open(f"res/{file}", "w") as f:
-            json.dump(list(), f)
-            
+        json.dump(list(), f)
+
     print(f'clear {file} successfully')
 
+
+check_dir()
+check_files()
+check_content()
 download_img('right')
 download_img('left')
 move_to_archieved()
