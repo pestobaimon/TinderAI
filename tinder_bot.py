@@ -7,7 +7,8 @@ from urllib.parse import urlparse
 import os
 import sys
 import json
-from tkinter import *
+# from tkinter import *
+import tkinter
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -132,7 +133,7 @@ class TinderBot():
         img_click_right.click()
 
         first_pic_hit = 0
-        for i in range(10):
+        for _ in range(10):
             if first_pic_hit >= 2:
                 break
             try:
@@ -263,9 +264,9 @@ class TinderBot():
     def tk_collect_right(self):
         pass
 
-    def get_current_img(self, event: Event):
+    def get_current_img(self, event: tkinter.Event):
         # get the image source
-
+        
         swipe = event.__getattribute__('keysym').lower()
         age = 'none'
         name = 'none'
@@ -351,8 +352,8 @@ class TinderBot():
             print('failed to update JSON file')
 
     def tk_collect(self):
-        main = Tk()
-        frame = Frame(main, width=100, height=100)
+        main = tkinter.Tk()
+        frame = tkinter.Frame(main, width=100, height=100)
         main.bind('<Left>', self.get_current_img)
         main.bind('<Right>', self.get_current_img)
         frame.pack()
