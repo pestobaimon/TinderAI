@@ -44,8 +44,8 @@ def collect_failed_gurl(gurl, status: str):
     DESTINATION = 'res/failed_yea_gurls.json' if status == 'right' else 'res/failed_nope_gurls.json'
     
     if not os.path.isfile(DESTINATION):
-        with open(DESTINATION, "w") as to:
-            pass
+        with open(DESTINATION, "w") as json_file:
+            json.dump(json_file, list())
     
     try:
         with open(DESTINATION) as f:
@@ -64,33 +64,47 @@ def collect_failed_gurl(gurl, status: str):
 def move_to_archieved():
     if not os.path.isfile("res/archieved_yea_gurls.json"):
         with open("res/archieved_yea_gurls.json", "w") as to:
-            json.dump(to, list())
+            json.dump(list(), to)
     if not os.path.isfile("res/archieved_nope_gurls.json"):
         with open("res/archieved_nope_gurls.json", "w") as to:
-            json.dump(to, list())
+            json.dump(list(), to)
 
-    with open("res/yea_gurls.json", "r") as f, open("res/archieved_yea_gurls.json", "r") as to:
+    try:
+        with open('res/archieved_yea_gurls.json') as f:
+            arc_yea_data = json.load(f)
+    except:
+        arc_yea_data = list()
+    try:
+        with open('res/archieved_nope_gurls.json') as f:
+            arc_nope_data = json.load(f)
+    except:
+        arc_nope_data = list()
+
+    with open("res/yea_gurls.json", "r") as f:
         to_insert = json.load(f)
-        destination = json.load(to)
-        destination.append(to_insert) #The exact nature of this line varies. See below.
+        arc_yea_data.extend(to_insert)
     with open("res/archieved_yea_gurls.json", "w") as to:
-        json.dump(to, destination)
-    with open("res/nope_girls.json", "r") as f, open("res/archieved_nope_gurls.json", "r") as to:
-        to_insert = json.load(f)
-        destination = json.load(to)
-        destination.append(to_insert) #The exact nature of this line varies. See below.
-    with open("res/archieved_nope_gurls.json", "w") as to:
-        json.dump(to, destination)
-    print('moved to archieve successfully')
+        json.dump(arc_yea_data, to)
 
-def clear_json():
-    with open("res/yea_gurls.json", "w") as f:
-        json.dump(f, '')
-    with open("res/nope_gurls.json", "w") as f:
-        json.dump(f, '')
-    print('clear files successfully')
+    with open("res/nope_gurls.json", "r") as f:
+        to_insert = json.load(f)
+        arc_nope_data.extend(to_insert)
+    with open("res/archieved_nope_gurls.json", "w") as to:
+        json.dump(arc_nope_data, to)
+
+    print('move to archieve successfully')
+
+def clear_json(swipe: str):
+
+    file = 'nope_gurls.json' if swipe == 'left' else 'yea_gurls.json'
+
+    with open(f"res/{file}", "w") as f:
+            json.dump(list(), f)
+            
+    print(f'clear {file} successfully')
 
 download_img('right')
 download_img('left')
 move_to_archieved()
-clear_json()
+clear_json('right')
+clear_json('left')

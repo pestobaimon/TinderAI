@@ -22,13 +22,13 @@ class TinderBot():
     def login(self):
         self.driver.get('https://www.tinder.com')
 
-        sleep(5)
+        sleep(2)
 
         google_btn = self.driver.find_element_by_xpath(
             '//*[@id="modal-manager"]/div/div/div/div/div[3]/span/div[1]/div/button')
         google_btn.click()
 
-        sleep(3)
+        sleep(2)
 
         # switch to login window popup
         base_window = self.driver.window_handles[0]
@@ -64,7 +64,7 @@ class TinderBot():
             '//*[@id="modal-manager"]/div/div/div/div/div[3]/button[1]')
         allow_location_btn.click()
 
-        sleep(3)
+        sleep(1.5)
 
         disable_notif_btn = self.driver.find_element_by_xpath(
             '//*[@id="modal-manager"]/div/div/div/div/div[3]/button[2]')
@@ -358,7 +358,6 @@ class TinderBot():
         main.bind('<Right>', self.get_current_img)
         frame.pack()
         main.mainloop()
-
 
 bot = TinderBot()
 bot.login()
