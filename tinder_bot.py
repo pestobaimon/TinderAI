@@ -23,7 +23,7 @@ class TinderBot():
     def login(self):
         self.driver.get('https://www.tinder.com')
 
-        sleep(2)
+        sleep(5)
 
         google_btn = self.driver.find_element_by_xpath(
             '//*[@id="modal-manager"]/div/div/div/div/div[3]/span/div[1]/div/button')

@@ -143,7 +143,7 @@ def clear_json(swipe: str):
 
 check_dir()
 check_files()
-check_content()
+# check_content()
 download_img('right')
 download_img('left')
 move_to_archieved()
