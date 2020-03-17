@@ -97,21 +97,21 @@ def collect_failed_gurl(gurl, status: str):
         pass
 
 
-def move_to_archieved():
-    if not os.path.isfile("res/archieved_yea_gurls.json"):
-        with open("res/archieved_yea_gurls.json", "w") as to:
+def move_to_archived():
+    if not os.path.isfile("res/archived_yea_gurls.json"):
+        with open("res/archived_yea_gurls.json", "w") as to:
             json.dump(list(), to)
-    if not os.path.isfile("res/archieved_nope_gurls.json"):
-        with open("res/archieved_nope_gurls.json", "w") as to:
+    if not os.path.isfile("res/archived_nope_gurls.json"):
+        with open("res/archived_nope_gurls.json", "w") as to:
             json.dump(list(), to)
 
     try:
-        with open('res/archieved_yea_gurls.json') as f:
+        with open('res/archived_yea_gurls.json') as f:
             arc_yea_data = json.load(f)
     except:
         arc_yea_data = list()
     try:
-        with open('res/archieved_nope_gurls.json') as f:
+        with open('res/archived_nope_gurls.json') as f:
             arc_nope_data = json.load(f)
     except:
         arc_nope_data = list()
@@ -119,13 +119,13 @@ def move_to_archieved():
     with open("res/yea_gurls.json", "r") as f:
         to_insert = json.load(f)
         arc_yea_data.extend(to_insert)
-    with open("res/archieved_yea_gurls.json", "w") as to:
+    with open("res/archived_yea_gurls.json", "w") as to:
         json.dump(arc_yea_data, to)
 
     with open("res/nope_gurls.json", "r") as f:
         to_insert = json.load(f)
         arc_nope_data.extend(to_insert)
-    with open("res/archieved_nope_gurls.json", "w") as to:
+    with open("res/archived_nope_gurls.json", "w") as to:
         json.dump(arc_nope_data, to)
 
     print('move to archieve successfully')
@@ -146,6 +146,6 @@ check_files()
 # check_content()
 download_img('right')
 download_img('left')
-move_to_archieved()
+move_to_archived()
 clear_json('right')
 clear_json('left')
